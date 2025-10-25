@@ -1,0 +1,38 @@
+{
+  "name": "judo-academy-web",
+  "version": "1.0.0",
+  "description": "Aplicación web completa para academia de Judo con sistema de autenticación y gestión de contenidos",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "judo",
+    "academy",
+    "martial-arts",
+    "web-app",
+    "supabase",
+    "authentication",
+    "admin-panel"
+  ],
+  "author": "Academia de Judo",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.5.0",
+    "vercel": "^32.5.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/judo-academy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tu-usuario/judo-academy/issues"
+  },
+  "homepage": "https://judo-academy.vercel.app"
+}

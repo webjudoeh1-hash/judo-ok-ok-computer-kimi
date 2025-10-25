@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Dashboard - Academia de Judo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/3.0.3/plotly.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .font-display { font-family: 'Playfair Display', serif; }
+        .font-body { font-family: 'Inter', sans-serif; }
+        .text-gold { color: #D4AF37; }
+        .bg-gold { background-color: #D4AF37; }
+        .border-gold { border-color: #D4AF37; }
+        .hover-lift { transition: transform 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-2px); }
+        .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .progress-bar { transition: width 0.5s ease-in-out; }
+        .technique-card { transition: all 0.3s ease; border: 2px solid transparent; }
+        .technique-card:hover { border-color: #D4AF37; transform: translateY(-2px); }
+        .technique-card.completed { border-color: #10B981; background-color: #F0FDF4; }
+        .technique-card.favorite { border-color: #D4AF37; }
+        .belt-white { background: linear-gradient(90deg, #FFFFFF 0%, #F3F4F6 100%); }
+        .belt-yellow { background: linear-gradient(90deg, #FDE047 0%, #FBBF24 100%); }
+        .belt-orange { background: linear-gradient(90deg, #FB923C 0%, #F97316 100%); }
+        .belt-green { background: linear-gradient(90deg, #34D399 0%, #10B981 100%); }
+        .belt-blue { background: linear-gradient(90deg, #60A5FA 0%, #3B82F6 100%); }
+        .belt-brown { background: linear-gradient(90deg, #A3A3A3 0%, #737373 100%); }
+        .belt-black { background: linear-gradient(90deg, #1F2937 0%, #111827 100%); }
+    </style>
+</head>
+<body class="font-body bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-display font-bold text-gold">🥋</div>
+                    <span class="ml-2 text-xl font-display font-semibold">Mi Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="user-name" class="text-gray-700">Usuario</span>
+                    <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                        <span id="user-initials">US</span>
+                    </div>
+                    <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-display font-bold text-gray-900 mb-2">¡Bienvenido de vuelta!</h1>
+            <p class="text-gray-600">Continúa tu camino en el arte del Judo</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg card-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Progreso General</h3>
+                    <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white"></i>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Técnicas Dominadas</span>
+                        <span id="techniques-progress">12/20</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="techniques-bar" class="progress-bar bg-gold h-2 rounded-full" style="width: 60%"></div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500">60% completado</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg card-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Cinturón Actual</h3>
+                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-award text-white"></i>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="h-4 belt-orange rounded-full"></div>
+                </div>
+                <p class="text-lg font-semibold text-gray-900">Cinturón Naranja</p>
+                <p class="text-sm text-gray-500">Próximo: Cinturón Verde</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg card-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Clases Asistidas</h3>
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-white"></i>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold text-gray-900 mb-2">47</div>
+                <p class="text-sm text-gray-500">Este mes: 8 clases</p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Techniques Section -->
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-display font-bold text-gray-900">Técnicas Disponibles</h2>
+                    <div class="flex space-x-2">
+                        <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium bg-gold text-white" data-filter="all">
+                            Todas
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-filter="nagewaza">
+                            Nage-waza
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-filter="katamewaza">
+                            Katame-waza
+                        </button>
+                    </div>
+                </div>
+
+                <div id="techniques-grid" class="grid md:grid-cols-2 gap-4">
+                    <!-- Techniques will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Actividad Reciente</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Técnica completada</p>
+                                <p class="text-xs text-gray-500">O Soto Gari</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-play text-blue-600 text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Video visto</p>
+                                <p class="text-xs text-gray-500">Fundamentos del Ukemi</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-600 text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Nuevo logro</p>
+                                <p class="text-xs text-gray-500">10 técnicas dominadas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favorites -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Favoritos</h3>
+                    <div id="favorites-list" class="space-y-2">
+                        <!-- Favorites will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Progress Chart -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Progreso Mensual</h3>
+                    <div id="progress-chart" style="height: 200px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technique Detail Modal -->
+    <div id="technique-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-xl font-semibold text-gray-900"></h3>
+                    <button onclick="closeTechniqueModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="modal-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex justify-end space-x-3 pt-4 border-t">
+                    <button onclick="toggleFavorite()" id="favorite-btn" class="px-4 py-2 border border-gold text-gold rounded-lg hover:bg-gold hover:text-white transition-colors">
+                        <i class="fas fa-heart mr-2"></i>Favorito
+                    </button>
+                    <button onclick="markAsCompleted()" id="complete-btn" class="px-4 py-2 bg-gold text-black rounded-lg hover:bg-yellow-600 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Marcar Completado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
